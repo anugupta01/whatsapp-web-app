@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Icon from "components/Icon";
 
 const alerts = [
-	<div className="sidebar__alert sidebar__alert--info">
+	<div key="info" className="sidebar__alert sidebar__alert--info">
 		<div className="sidebar__alert-icon-wrapper">
 			<Icon id="notification" className="sidebar__alert-icon" />
 		</div>
@@ -11,7 +11,7 @@ const alerts = [
 			<p className="sidebar__alert-text"> Turn on your notifications </p>
 		</div>
 	</div>,
-	<div className="sidebar__alert sidebar__alert--danger">
+	<div key="danger" className="sidebar__alert sidebar__alert--danger">
 		<div className="sidebar__alert-icon-wrapper">
 			<Icon id="notification" className="sidebar__alert-icon" />
 		</div>
@@ -22,7 +22,7 @@ const alerts = [
 			</p>
 		</div>
 	</div>,
-	<div className="sidebar__alert sidebar__alert--warning">
+	<div key="warning" className="sidebar__alert sidebar__alert--warning">
 		<div className="sidebar__alert-icon-wrapper">
 			<Icon id="noWifi" className="sidebar__alert-icon" />
 		</div>
@@ -30,11 +30,12 @@ const alerts = [
 			<p className="sidebar__alert-text"> Phone Not Connected</p>
 			<p className="sidebar__alert-text">
 				Make sure your phone has an active internet connection.{" "}
-				<a
+				
 					className="underline"
 					href="https://faq.whatsapp.com/web/troubleshooting/cant-connect-to-whatsapp-web-or-desktop/"
 					target="_blank"
-				>
+					rel="noreferrer"
+				<a>
 					{" "}
 					Learn more.{" "}
 				</a>
@@ -42,9 +43,12 @@ const alerts = [
 		</div>
 	</div>,
 ];
-const randomAlert = alerts.sort(() => 0.5 - Math.random())[0];
 
 const Alert = () => {
+	const randomAlert = useMemo(
+		() => alerts[Math.floor(Math.random() * alerts.length)],
+		[]
+	);
 	return <>{randomAlert}</>;
 };
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import "./styles/main.css";
 import EmojiTray from "./components/EmojiTray";
 import ChatInput from "./components/ChatInput";
@@ -10,12 +11,11 @@ import Profile from "./components/Profile";
 import Convo from "./components/Convo";
 import { useUsersContext } from "context/usersContext";
 
-const Chat = ({ match, history }) => {
+const Chat = () => {
+	const { id: userId } = useParams();
+	const navigate = useNavigate();
 	const { users, setUserAsUnread, addNewMessage } = useUsersContext();
-
-	const userId = match.params.id;
-	let user = users.filter((user) => user.id === Number(userId))[0];
-
+	const user = users.filter((user) => user.id === Number(userId))[0];
 	const lastMsgRef = useRef(null);
 	const [showAttach, setShowAttach] = useState(false);
 	const [showEmojis, setShowEmojis] = useState(false);
@@ -24,7 +24,7 @@ const Chat = ({ match, history }) => {
 	const [newMessage, setNewMessage] = useState("");
 
 	useEffect(() => {
-		if (!user) history.push("/");
+		if (!user) navigate("/");
 		else {
 			scrollToLastMsg();
 			setUserAsUnread(user.id);
@@ -36,16 +36,13 @@ const Chat = ({ match, history }) => {
 	}, [users]);
 
 	const openSidebar = (cb) => {
-		// close any open sidebar first
 		setShowProfileSidebar(false);
 		setShowSearchSidebar(false);
-
-		// call callback fn
 		cb(true);
 	};
 
 	const scrollToLastMsg = () => {
-		lastMsgRef.current.scrollIntoView();
+		lastMsgRef.current?.scrollIntoView();
 	};
 
 	const submitNewMessage = () => {
@@ -54,11 +51,12 @@ const Chat = ({ match, history }) => {
 		scrollToLastMsg();
 	};
 
+	if (!user) return null;
+
 	return (
 		<div className="chat">
 			<div className="chat__body">
 				<div className="chat__bg"></div>
-
 				<Header
 					user={user}
 					openProfileSidebar={() => openSidebar(setShowProfileSidebar)}
@@ -98,7 +96,6 @@ const Chat = ({ match, history }) => {
 			>
 				<Search />
 			</ChatSidebar>
-
 			<ChatSidebar
 				heading="Contact Info"
 				active={showProfileSidebar}
