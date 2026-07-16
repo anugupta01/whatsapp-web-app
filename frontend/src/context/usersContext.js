@@ -3,12 +3,10 @@ import contacts from "data/contacts";
 import { useSocketContext } from "./socketContext";
 
 const UsersContext = createContext();
-
 const useUsersContext = () => useContext(UsersContext);
 
 const UsersProvider = ({ children }) => {
 	const socket = useSocketContext();
-
 	const [users, setUsers] = useState(contacts);
 
 	const _updateUserProp = (userId, prop, value) => {
@@ -34,7 +32,6 @@ const UsersProvider = ({ children }) => {
 	const fetchMessageResponse = (data) => {
 		setUsers((users) => {
 			const { userId, response } = data;
-
 			let userIndex = users.findIndex((user) => user.id === userId);
 			const usersCopy = JSON.parse(JSON.stringify(users));
 			const newMsgObject = {
@@ -43,9 +40,7 @@ const UsersProvider = ({ children }) => {
 				time: new Date().toLocaleTimeString(),
 				status: null,
 			};
-
 			usersCopy[userIndex].messages.TODAY.push(newMsgObject);
-
 			return usersCopy;
 		});
 	};
@@ -54,6 +49,12 @@ const UsersProvider = ({ children }) => {
 		socket.on("fetch_response", fetchMessageResponse);
 		socket.on("start_typing", setUserAsTyping);
 		socket.on("stop_typing", setUserAsNotTyping);
+
+		return () => {
+			socket.off("fetch_response", fetchMessageResponse);
+			socket.off("start_typing", setUserAsTyping);
+			socket.off("stop_typing", setUserAsNotTyping);
+		};
 	}, [socket]);
 
 	const setUserAsUnread = (userId) => {
@@ -69,10 +70,8 @@ const UsersProvider = ({ children }) => {
 			time: new Date().toLocaleTimeString(),
 			status: "delivered",
 		};
-
 		usersCopy[userIndex].messages.TODAY.push(newMsgObject);
 		setUsers(usersCopy);
-
 		socket.emit("fetch_response", { userId });
 	};
 
