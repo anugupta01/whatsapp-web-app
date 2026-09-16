@@ -8,12 +8,12 @@ const alerts = [
 		</div>
 		<div className="sidebar__alert-texts">
 			<p className="sidebar__alert-text"> Get notified of new messages </p>
-				<a
 		</div>
 	</div>,
 	<div key="danger" className="sidebar__alert sidebar__alert--danger">
 		<div className="sidebar__alert-icon-wrapper">
 			<Icon id="notification" className="sidebar__alert-icon" />
+		</div>
 		<div className="sidebar__alert-texts">
 			<p className="sidebar__alert-text"> Phone battery low </p>
 			<p className="sidebar__alert-text">
@@ -29,12 +29,12 @@ const alerts = [
 			<p className="sidebar__alert-text"> Phone Not Connected</p>
 			<p className="sidebar__alert-text">
 				Make sure your phone has an active internet connection.{" "}
-				
+				<a
 					className="underline"
 					href="https://faq.whatsapp.com/web/troubleshooting/cant-connect-to-whatsapp-web-or-desktop/"
 					target="_blank"
 					rel="noreferrer"
-				<a>
+				>
 					{" "}
 					Learn more.{" "}
 				</a>
