@@ -29,6 +29,7 @@ const Home = () => {
 					<a
 						href="https://www.whatsapp.com/download"
 						target="_blank"
+						rel="noreferrer"
 						className="home__link"
 					>
 						{" "}

@@ -23,6 +23,10 @@ const Chat = () => {
 	const [showSearchSidebar, setShowSearchSidebar] = useState(false);
 	const [newMessage, setNewMessage] = useState("");
 
+	const scrollToLastMsg = useCallback(() => {
+		lastMsgRef.current?.scrollIntoView();
+	}, []);
+
 	useEffect(() => {
 		if (!user) navigate("/");
 		else {
@@ -40,10 +44,6 @@ const Chat = () => {
 		setShowSearchSidebar(false);
 		cb(true);
 	};
-
-	const scrollToLastMsg = useCallback(() => {
-		lastMsgRef.current?.scrollIntoView();
-	}, []);
 
 	const submitNewMessage = () => {
 		addNewMessage(user.id, newMessage);
