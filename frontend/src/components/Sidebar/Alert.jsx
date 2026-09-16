@@ -8,13 +8,12 @@ const alerts = [
 		</div>
 		<div className="sidebar__alert-texts">
 			<p className="sidebar__alert-text"> Get notified of new messages </p>
-			<p className="sidebar__alert-text"> Turn on your notifications </p>
+				<a
 		</div>
 	</div>,
 	<div key="danger" className="sidebar__alert sidebar__alert--danger">
 		<div className="sidebar__alert-icon-wrapper">
 			<Icon id="notification" className="sidebar__alert-icon" />
-		</div>
 		<div className="sidebar__alert-texts">
 			<p className="sidebar__alert-text"> Phone battery low </p>
 			<p className="sidebar__alert-text">

@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+	createContext,
+	useCallback,
+	useContext,
+	useEffect,
+	useState,
+} from "react";
 import contacts from "data/contacts";
 import { useSocketContext } from "./socketContext";
 
@@ -9,7 +15,7 @@ const UsersProvider = ({ children }) => {
 	const socket = useSocketContext();
 	const [users, setUsers] = useState(contacts);
 
-	const _updateUserProp = (userId, prop, value) => {
+	const _updateUserProp = useCallback((userId, prop, value) => {
 		setUsers((users) => {
 			const usersCopy = [...users];
 			let userIndex = users.findIndex((user) => user.id === userId);
@@ -17,17 +23,17 @@ const UsersProvider = ({ children }) => {
 			usersCopy[userIndex] = { ...userObject, [prop]: value };
 			return usersCopy;
 		});
-	};
+	}, []);
 
-	const setUserAsTyping = (data) => {
+	const setUserAsTyping = useCallback((data) => {
 		const { userId } = data;
 		_updateUserProp(userId, "typing", true);
-	};
+	}, [_updateUserProp]);
 
-	const setUserAsNotTyping = (data) => {
+	const setUserAsNotTyping = useCallback((data) => {
 		const { userId } = data;
 		_updateUserProp(userId, "typing", false);
-	};
+	}, [_updateUserProp]);
 
 	const fetchMessageResponse = (data) => {
 		setUsers((users) => {

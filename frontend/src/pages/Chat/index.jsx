@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./styles/main.css";
 import EmojiTray from "./components/EmojiTray";
@@ -29,11 +29,11 @@ const Chat = () => {
 			scrollToLastMsg();
 			setUserAsUnread(user.id);
 		}
-	}, []);
+	}, [navigate, scrollToLastMsg, setUserAsUnread, user]);
 
 	useEffect(() => {
 		user && scrollToLastMsg();
-	}, [users]);
+	}, [scrollToLastMsg, user, users]);
 
 	const openSidebar = (cb) => {
 		setShowProfileSidebar(false);
@@ -41,9 +41,9 @@ const Chat = () => {
 		cb(true);
 	};
 
-	const scrollToLastMsg = () => {
+	const scrollToLastMsg = useCallback(() => {
 		lastMsgRef.current?.scrollIntoView();
-	};
+	}, []);
 
 	const submitNewMessage = () => {
 		addNewMessage(user.id, newMessage);
