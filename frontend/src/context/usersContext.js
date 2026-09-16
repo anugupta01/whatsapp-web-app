@@ -35,7 +35,7 @@ const UsersProvider = ({ children }) => {
 		_updateUserProp(userId, "typing", false);
 	}, [_updateUserProp]);
 
-	const fetchMessageResponse = (data) => {
+	const fetchMessageResponse = useCallback((data) => {
 		setUsers((users) => {
 			const { userId, response } = data;
 			let userIndex = users.findIndex((user) => user.id === userId);
@@ -49,7 +49,7 @@ const UsersProvider = ({ children }) => {
 			usersCopy[userIndex].messages.TODAY.push(newMsgObject);
 			return usersCopy;
 		});
-	};
+	}, []);
 
 	useEffect(() => {
 		socket.on("fetch_response", fetchMessageResponse);
@@ -61,7 +61,7 @@ const UsersProvider = ({ children }) => {
 			socket.off("start_typing", setUserAsTyping);
 			socket.off("stop_typing", setUserAsNotTyping);
 		};
-	}, [socket]);
+	}, [fetchMessageResponse, setUserAsNotTyping, setUserAsTyping, socket]);
 
 	const setUserAsUnread = (userId) => {
 		_updateUserProp(userId, "unread", 0);
