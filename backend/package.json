@@ -11,7 +11,7 @@
   "author": "Karen Okonkwo",
   "license": "ISC",
   "dependencies": {
-    "express": "^5.2.1",
+    "express": "^5.3.0",
     "nodemon": "^3.1.14",
     "socket.io": "^4.8.4"
   }
